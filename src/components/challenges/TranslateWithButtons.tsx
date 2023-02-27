@@ -1,4 +1,4 @@
-import Preact from 'preact'
+import Preact from 'preact';
 import {useState} from 'preact/hooks'
 import { MdOutlineClose, MdOutlineFlag} from "react-icons/md"
 import Button from '../buttons/Button'
@@ -14,31 +14,28 @@ const padding = `
   lg:px-[160px]
 `
 
-const ChoiceChallenge = () => {
-  const [percent,setPercent] = useState<number>(0)
-  const [status,setStatus] = useState<"idle" | "success" | "fail">("idle")
-  const [question , setQuestion] = useState<{word : string,meaning:string}[]>([
-    {
-      word:"Hello",
-      meaning : "سلام"
-    },
-    {
-      word:"How",
-      meaning : "نجه"
-    },
-    {
-      word:"Are",
-      meaning : "لار , لر"
-    },
-    {
-      word:"You?",
-      meaning : "سیز , سن"
-    },
+type props = {
+  onContinue : () => void,
+  options : {
+    value : string,
+    id : number
+  }[],
+  correctAnswer : string,
+  sentence: string,
+  onFail : () => void,
+  onSuccess : () => void
+}
 
-  ])
-  const [answer , setAnswer] = useState<{value : string , id : number}[]>([])
-  
-  const [data,setData] = useState("سلام نجه سیز؟ سن کیم او".split(" ").sort(() => 0.5 - Math.random()).map((item , idx) => {return{value : item , id : idx}}))
+const TranslateWithButtons : Preact.FunctionComponent<props> = ({
+  onContinue,
+  sentence,
+  correctAnswer,
+  options,
+  onFail,
+  onSuccess
+}) => {
+  const [status,setStatus] = useState<"idle" | "success" | "fail">("idle")  
+  const [answer,setAnswer] = useState<{value : string , id : number}[] | []>([])  
 
   return (
     <div
@@ -47,65 +44,10 @@ const ChoiceChallenge = () => {
     flex-col
     relative
     w-full
-    h-screen
+    h-[calc(100vh_-_64px)]
     `}
     >
-      <div
-      className={`
-      ${padding}
-      flex 
-      items-center
-      gap-4
-      py-4
-      `}>
 
-        <button
-        className={`
-        text-neutral-400
-        hover:text-neutral-300
-        text-[2rem]
-        transition-colors
-        `}>
-          <MdOutlineClose/>
-        </button>
-
-        <div
-        className={`
-        relative
-        w-[100%]
-        h-[16px]
-        bg-neutral-200
-        rounded-full
-        `}>
-          <div
-          style={{
-            width : percent + "%"
-          }}
-          className={`
-          transition-all
-          flex
-          items-center
-          justify-center
-          relative
-          h-full
-          bg-green-500
-          rounded-[inherit]
-          `}>
-            <span
-            className={`
-            flex
-            w-[100%]
-            mx-2
-            h-[6px]
-            bg-green-400
-            rounded-full
-            -translate-y-[25%]
-            `}
-            />
-          </div>
-        </div>
-
-      </div>
 
       <div
       className={`
@@ -114,8 +56,10 @@ const ChoiceChallenge = () => {
       flex
       flex-col
       h-[100%]
+      overflow-auto
       `}>
 
+        {/* Header */}
         <div>
           <h1
           className={`
@@ -125,10 +69,11 @@ const ChoiceChallenge = () => {
           text-neutral-800
           `}
           >
-            Write this in Azeri
+            Write this in Persian
           </h1>
         </div>
 
+        {/* Question */}
         <div
         className={`
         flex
@@ -194,12 +139,12 @@ const ChoiceChallenge = () => {
             text-neutral-700
             gap-1
             `}>
-                {question.map((item , idx) => {
+                {sentence.split(" ").map((item , idx) => {
                   return(
                     <TextWithHint
                     key={idx}
-                    value={item.word}
-                    meaning={item.meaning}
+                    value={item}
+                    meaning={""}
                     />
                   )
                 })}
@@ -208,15 +153,18 @@ const ChoiceChallenge = () => {
           </div>
 
         </div>
-
+        
+        {/* Field */}
         <div
         dir={"rtl"}
         className={`
         flex-shrink-0
         items-center
         flex
+        flex-wrap
         w-[100%]
-        h-[70px]
+        min-h-[70px]
+        py-2
         border-y-[2px]
         gap-2
         `}>
@@ -234,17 +182,19 @@ const ChoiceChallenge = () => {
           })}
         </div>
 
+        {/* Answer options */}
         <div
         className={`
         flex
         flex-wrap
+        py-4
         gap-2
-        h-full
-        items-center
+        h-fit
+        items-start
         justify-center
         `}>
           {
-            data.map((item , idx) => {
+            options.map((item , idx) => {
               let bool = answer.some((v) => v.id === item.id)
               return(
                 <TextButton
@@ -278,7 +228,6 @@ const ChoiceChallenge = () => {
       relative
       flex
       items-center
-      h-fit
       py-4
       gap-2
       place-items-center
@@ -313,11 +262,9 @@ const ChoiceChallenge = () => {
                     <Button
                     brightness='brightness-[20%]'
                     onClick={async (e) => {
-                      return new Promise((resolve , reject) => setTimeout(() => {
-                        setStatus("fail")
-                        playWrong()
-                        resolve()
-                      },500))
+                      onFail()
+                      setStatus("fail")
+                      playWrong()
                     }}
                     colors='
                     text-neutral-400
@@ -338,11 +285,15 @@ const ChoiceChallenge = () => {
                   `}>
                     <Button
                     onClick={async (e) => {
-                      return new Promise((resolve , reject) => setTimeout(() => {
-                        playCorrect()
+                      if(correctAnswer.replaceAll(" ","") === answer?.map(i => i.value).join("")){
+                        onSuccess()
                         setStatus("success")
-                        resolve()
-                      },1000))
+                        playCorrect()
+                        return
+                      }
+                      onFail()
+                      setStatus("fail")
+                      playWrong()
                     }}>
                       check
                     </Button>
@@ -446,11 +397,9 @@ const ChoiceChallenge = () => {
                     text-white
                     '
                     onClick={async (e) => {
-                      return new Promise((resolve , reject) => setTimeout(() => {
                         setStatus("idle")
-                        setPercent(prev => prev + 10)
-                        resolve()
-                      },1000))
+                        setAnswer([])
+                        onContinue()
                     }}>
                       Continue
                     </Button>
@@ -554,10 +503,9 @@ const ChoiceChallenge = () => {
                     text-white
                     '
                     onClick={async (e) => {
-                      return new Promise((resolve , reject) => setTimeout(() => {
                         setStatus("idle")
-                        resolve()
-                      },1000))
+                        setAnswer([])
+                        onContinue()
                     }}>
                       Continue
                     </Button>
@@ -570,9 +518,8 @@ const ChoiceChallenge = () => {
 
       </div>
 
-
     </div>
   )
 }
 
-export default ChoiceChallenge
+export default TranslateWithButtons

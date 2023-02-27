@@ -12,12 +12,11 @@ const TextWithHint :Preact.FunctionComponent<props> = ({
     meaning
 }) => {
     const [showMeaning , setShowMeaning] = useState<boolean>(false)
-    const timer = useRef<null>(null)
-  return (
+
+    return (
     <div
     onMouseEnter={() => {
-        setShowMeaning(true)
-        speak(meaning,"en-US")
+        // setShowMeaning(true)
     }}
 
     onMouseLeave={() => {
@@ -28,21 +27,21 @@ const TextWithHint :Preact.FunctionComponent<props> = ({
     relative
     border-dashed
     border-b-[1px]
-    border-b-neutral-600
+    border-b-neutral-300
     `}>
         {value}
 
         { showMeaning &&
         <span
         className={`
-        rounded-2xl
+        rounded-[14px]
         py-3
         px-2
         text-[1rem]
         absolute
         bg-neutral-100
         border-[2px]
-        top-[calc(100%_+_6px)]
+        top-[calc(100%_+_5px)]
         right-[50%]
         translate-x-[50%]
         `}>
