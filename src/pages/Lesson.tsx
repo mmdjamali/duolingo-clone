@@ -3,6 +3,9 @@ import { useState , useReducer } from "preact/hooks";
 import { MdOutlineClose } from 'react-icons/md'
 import TranslateWithButtons from '../components/challenges/TranslateWithButtons';
 
+import Results from './Results';
+import AnimateChallenges from '../components/animations/AnimateChallenges';
+
 type actionType = {
     type : string,
     payload? : any
@@ -17,11 +20,18 @@ type prevType = {
     streak : number;
     mistakes : string[];
     progress : number;
+    start : Date | null;
+    finish : Date | null;
+}
+
+type sentenceType = {
+    word : string,
+    meaning : string
 }
 
 type questionType = {
     type : "TranslateWithButtons",
-    sentence : string,
+    sentence : sentenceType[],
     meaning : string,
     options : string[],
     id : string,
@@ -34,13 +44,17 @@ function Lesson() {
             case "next":{
                 if(prev.questions.length <= 1){
                     if(prev.fail.length){
-                        // go to status
-                        console.log("lets go to the status")
+                        return{
+                            ...prev,
+                            fail : [],
+                            questions: [...prev.fail],
+                        }
                     }
                     return{
                         ...prev,
                         fail : [],
-                        questions: [...prev.fail]
+                        questions: [...prev.fail],
+                        finish : new Date(Date.now()),
                     }
                 }
                 return{
@@ -54,7 +68,8 @@ function Lesson() {
                 return {
                     ...prev,
                     correct : [...prev.correct, prev.questions[0]],
-                    progress : ([...prev.correct, prev.questions[0]].length / prev.length) * 100
+                    progress : ([...prev.correct, prev.questions[0]].length / prev.length) * 100,
+                    streak : prev.streak + 1
                 }
             }
             case "wrong" : {
@@ -63,7 +78,8 @@ function Lesson() {
                 return{
                     ...prev,
                     fail : [...prev.fail, prev.questions[0]],
-                    mistakes : prev.mistakes.includes(prev.questions[0].id) ? [...prev.mistakes] : [...prev.mistakes, prev.questions[0].id]
+                    mistakes : prev.mistakes.includes(prev.questions[0].id) ? [...prev.mistakes] : [...prev.mistakes, prev.questions[0].id],
+                    streak : 0
                 }
             }
         }
@@ -76,14 +92,23 @@ function Lesson() {
         redoing : false,
         streak : 0,
         mistakes : [],
-        progress : 0
+        progress : 0,
+        start : new Date(Date.now()),
+        finish : null
     })
+
+    if(challenges.questions.length === 0)return(
+        <Results
+        challenges={challenges}/>
+    )
 
   return (
     <div
     className={`
     w-full
     min-h-screen
+    overflow-x-hidden
+    
     `}>
         <div
         className={`
@@ -118,21 +143,24 @@ function Lesson() {
                 }}
                 className={`
                 transition-all
+                duration-500
                 flex
                 items-center
                 justify-center
                 relative
                 h-full
-                bg-green-500
+                ${challenges.streak >= 5 ? "bg-yellow-400" : "bg-green-500"}
                 rounded-[inherit]
                 `}>
                     <span
                     className={`
+                    transition-all
+                    duration-500
                     flex
                     w-[100%]
                     mx-2
                     h-[6px]
-                    bg-green-400
+                    ${challenges.streak >= 5 ? "bg-yellow-300" : "bg-green-400"}
                     rounded-full
                     -translate-y-[25%]
                     `}
@@ -142,41 +170,64 @@ function Lesson() {
 
         </div>
 
+        { (challenges.mistakes.length === 0 && challenges.progress === 100) &&
+        <h3
+        className={`
+        absolute
+        bottom-[50%]
+        right-[50%]
+        translate-y-[50%]
+        translate-x-[50%]
+        text-yellow-400
+        text-[4rem]
+        font-bold
+        select-none
+        drop-shadow-[0_0px_10px_rgba(250,204,21,.5)]
+        z-50
+        animate-perfect
+        pointer-events-none
+        `}>
+            Perfect!
+        </h3>
+        }
             {(() => {
+                if(!challenges.questions[0])return<></>
                 const Component = Components[challenges.questions[0].type]
                 return(
-                <Component
-                onSuccess={() => {
-                    updateChallenges({
-                        type : "correct"
-                    })
-                }}
-                onFail={() => {
-                    updateChallenges({
-                        type : "wrong"
-                    })
-                }}
-                sentence={challenges.questions[0].sentence}
-                correctAnswer={challenges.questions[0].meaning}
-                options={challenges.questions[0].options.map((v,i) => {
-                    return{
-                        value : v,
-                        id : i
-                    }
-                })}
-                onContinue={() => {
-                    updateChallenges({
-                        type : "next"
-                    })
-                }}
-            
-    
-            />)
+                <AnimateChallenges
+                question={challenges.questions[0]}>
+                    <Component
+                    key={challenges.questions[0]}
+                    onSuccess={() => {
+                        updateChallenges({
+                            type : "correct"
+                        })
+                    }}
+                    onFail={() => {
+                        updateChallenges({
+                            type : "wrong"
+                        })
+                    }}
+                    sentence={challenges.questions[0].sentence}
+                    correctAnswer={challenges.questions[0].meaning}
+                    options={challenges.questions[0].options.map((v,i) => {
+                        return{
+                            value : v,
+                            id : i
+                        }
+                    })}
+                    onContinue={() => {
+                        updateChallenges({
+                            type : "next"
+                        })
+                    }}
+                    />
+                </AnimateChallenges>
+            )
             })()}
 
     </div>
   )
-
 
 }
 
@@ -185,25 +236,52 @@ export default Lesson
 const questions : questionType[]= [
     {
         type : 'TranslateWithButtons',
-        sentence : "Hello",
-        meaning : "سلام",
-        options : "سلام تو کدوم".split(" "),
+        sentence : [
+            {
+            word : "Hello",
+            meaning : "سلام"
+            },
+            {
+            word : "my name",
+            meaning : "اسم من"
+            },
+            {
+            word : "is",
+            meaning : "هست"
+            },
+            {
+            word : "mohammad",
+            meaning : "محمد"
+            },
+        ],
+        meaning : "سلام اسم من محمد هست",
+        options : "سلام تو من محمد هست نیست اسم کدوم".split(" ").sort((a,b) => .5 - Math.random()),
         id : "1"
     },
     {
         type : 'TranslateWithButtons',
-        sentence : "Bye",
-        meaning : "خداحافظ",
-        options : "خداحافظ تو کدوم".split(" "),
+        sentence : [
+            {
+                word : "I'm",
+                meaning : "من هستم"
+            },
+            {
+                word : "a",
+                meaning : "یک"
+            },
+            {
+                word : "front-end",
+                meaning : "فرانت اند"
+            },
+            {
+                word : "developer",
+                meaning : "توسعه دهنده"
+            },
+        ],
+        meaning : "من یک توسعه دهنده فرانت اند هستم",
+        options : "من هستم یک توسعه دهنده فرانت اند آشپز هستی او تو کدوم".split(" ").sort((a,b) => .5 - Math.random()),
         id : "2"
     },
-    {
-        type : 'TranslateWithButtons',
-        sentence : "Me",
-        meaning : "من",
-        options : "سلام تو من کدوم".split(" "),
-        id : "3"
-    }
 ]
 
 const Components = {

@@ -1,5 +1,5 @@
 import Preact from 'preact';
-import {useState} from 'preact/hooks'
+import {useState , useEffect} from 'preact/hooks'
 import { MdOutlineClose, MdOutlineFlag} from "react-icons/md"
 import Button from '../buttons/Button'
 import { playCorrect, playWrong } from '../../utils/sounds'
@@ -13,6 +13,10 @@ const padding = `
   md:px-[64px] 
   lg:px-[160px]
 `
+type sentenceType = {
+  word : string,
+  meaning : string
+}
 
 type props = {
   onContinue : () => void,
@@ -21,7 +25,7 @@ type props = {
     id : number
   }[],
   correctAnswer : string,
-  sentence: string,
+  sentence: sentenceType[],
   onFail : () => void,
   onSuccess : () => void
 }
@@ -32,10 +36,17 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
   correctAnswer,
   options,
   onFail,
-  onSuccess
+  onSuccess,
 }) => {
   const [status,setStatus] = useState<"idle" | "success" | "fail">("idle")  
   const [answer,setAnswer] = useState<{value : string , id : number}[] | []>([])  
+  const [animation,setAnimation] = useState<"animate-slide-left" | "animate-slide-to-left">("animate-slide-left")
+
+  useEffect(() => {
+    return () => {
+      setAnimation("animate-slide-to-left")
+    }
+  },[])
 
   return (
     <div
@@ -47,7 +58,6 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
     h-[calc(100vh_-_64px)]
     `}
     >
-
 
       <div
       className={`
@@ -66,7 +76,7 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
           text-[1.5rem]
           font-black
           tracking-[1px]
-          text-neutral-800
+          text-neutral-700
           `}
           >
             Write this in Persian
@@ -77,13 +87,16 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
         <div
         className={`
         flex
-        items-center
         `}>
 
           <div
           className={`
+          self-end
+          flex-shrink-0
           inline-block
-          bg-red-500
+          border-[2px]
+          border-b-[0px]
+          rounded-t-2xl
           w-[100px]
           h-[150px]
           
@@ -94,6 +107,7 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
 
           <div
           className={`
+          self-center
           flex
           items-center
           justify-center
@@ -139,12 +153,12 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
             text-neutral-700
             gap-1
             `}>
-                {sentence.split(" ").map((item , idx) => {
+                {sentence.map((item , idx) => {
                   return(
                     <TextWithHint
                     key={idx}
-                    value={item}
-                    meaning={""}
+                    value={item.word}
+                    meaning={item.meaning}
                     />
                   )
                 })}
@@ -166,7 +180,7 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
         min-h-[70px]
         py-2
         border-y-[2px]
-        gap-2
+        gap-1
         `}>
           {answer.map((item, idx) => {
             return(
@@ -186,29 +200,36 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
         <div
         className={`
         flex
-        flex-wrap
-        py-4
-        gap-2
-        h-fit
-        items-start
         justify-center
+        items-center
+        h-full
         `}>
-          {
-            options.map((item , idx) => {
-              let bool = answer.some((v) => v.id === item.id)
-              return(
-                <TextButton
-                exists={bool}
-                key={idx}
-                value={item.value}
-                onClick={() => {
-                  setAnswer(prev => [...prev, { value : item.value , id : item.id}])
-                }}/>
-              )
-            })
-          }
+          <div
+          className={`
+          flex
+          flex-wrap
+          py-4
+          gap-1
+          h-fit
+          items-centers
+          justify-center
+          `}>
+            {
+              options.map((item , idx) => {
+                let bool = answer.some((v) => v.id === item.id)
+                return(
+                  <TextButton
+                  exists={bool}
+                  key={idx}
+                  value={item.value}
+                  onClick={() => {
+                    setAnswer(prev => [...prev, { value : item.value , id : item.id}])
+                  }}/>
+                )
+              })
+            }
+          </div>
         </div>
-
       </div>
 
       <div
@@ -266,10 +287,10 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
                       setStatus("fail")
                       playWrong()
                     }}
-                    colors='
+                    colors={`
                     text-neutral-400
                     border-neutral-300
-                    '
+                    `}
                     outlined>
                       Skip
                     </Button>
@@ -284,6 +305,7 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
                   w-full
                   `}>
                     <Button
+                    disabled={!answer.length}
                     onClick={async (e) => {
                       if(correctAnswer.replaceAll(" ","") === answer?.map(i => i.value).join("")){
                         onSuccess()
@@ -351,7 +373,7 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
                         font-thin
                         text-green-500
                         `}>
-                          I'm trying to clone duolingo
+                          {correctAnswer}
                         </span>
                       </div>
 
@@ -457,7 +479,7 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
                         font-thin
                         text-red-500
                         `}>
-                          I'm trying to clone duolingo
+                          {correctAnswer}
                         </span>
                       </div>
 

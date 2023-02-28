@@ -1,6 +1,5 @@
 import Preact from 'preact'
-import { useRef, useState } from 'preact/hooks'
-import { speak } from '../../utils/sounds'
+import { useState } from 'preact/hooks'
 
 type props = {
     value : string,
@@ -16,7 +15,7 @@ const TextWithHint :Preact.FunctionComponent<props> = ({
     return (
     <div
     onMouseEnter={() => {
-        // setShowMeaning(true)
+        setShowMeaning(true)
     }}
 
     onMouseLeave={() => {
@@ -24,6 +23,7 @@ const TextWithHint :Preact.FunctionComponent<props> = ({
     }}
 
     className={`
+    break-all
     relative
     border-dashed
     border-b-[1px]
@@ -34,6 +34,7 @@ const TextWithHint :Preact.FunctionComponent<props> = ({
         { showMeaning &&
         <span
         className={`
+        whitespace-nowrap
         rounded-[14px]
         py-3
         px-2
@@ -44,6 +45,7 @@ const TextWithHint :Preact.FunctionComponent<props> = ({
         top-[calc(100%_+_5px)]
         right-[50%]
         translate-x-[50%]
+        z-[10]
         `}>
             {meaning}
         </span>
@@ -52,6 +54,7 @@ const TextWithHint :Preact.FunctionComponent<props> = ({
         { showMeaning && 
         <span
         className={`
+        z-[11]
         absolute
         inline
         w-[12px]

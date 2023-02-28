@@ -7,6 +7,7 @@ type props = {
     colors ? : string
     onClick ?: (e : Preact.JSX.TargetedMouseEvent<HTMLButtonElement>) => {} | Promise<void>,
     brightness ?: string
+    disabled ?: boolean
 }
 
 const Button :Preact.FunctionComponent<props> = ({
@@ -14,7 +15,8 @@ const Button :Preact.FunctionComponent<props> = ({
     outlined,
     colors,
     onClick,
-    brightness
+    brightness,
+    disabled
 }) => {
     const [loading , setLoading] = useState<boolean>(false)
   
@@ -29,7 +31,7 @@ const Button :Preact.FunctionComponent<props> = ({
     `}>
         <button
         onClick={async (e) => {
-            if(!onClick) return
+            if(!onClick || disabled) return
 
             try{
                 setLoading(true)
@@ -57,15 +59,23 @@ const Button :Preact.FunctionComponent<props> = ({
         tracking-[2px]
         py-2.5
         px-4
-        ${loading ? "" : "border-b-[4px]"}
-        ${colors ? 
-            colors
-            :
+        ${(loading || disabled) ? "" : "border-b-[4px]"}
+        ${disabled ? "pointer-events-none" : ""}
+        ${disabled ? 
             `
             text-white
-            border-green-600
-            bg-green-500
-            `
+            border-neutral-500
+            bg-neutral-400
+            ` 
+            : 
+            colors ? 
+                colors
+                :
+                `
+                text-white
+                border-green-600
+                bg-green-500
+                `
         }
         `}>
             {!loading ? children :

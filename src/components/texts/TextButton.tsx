@@ -1,4 +1,5 @@
 import Preact from 'preact'
+import { isLatin } from '../../utils/functions'
 
 type props = {
     value : string,
@@ -30,6 +31,7 @@ const TextButton : Preact.FunctionComponent<props> = ({
                 onClick()
             }}
             className={`
+            select-none
             ${exists ? "opacity-0 pointer-events-none" : ""}
             flex
             items-center
