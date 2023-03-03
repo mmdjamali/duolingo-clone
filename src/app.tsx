@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks'
-import Challenge from './components/challenges/TranslateWithButtons'
-import Lesson from './pages/Lesson'
+import Lesson from './features/learn/components/pages/Lesson'
+import Router from "preact-router"
+import Learn from './features/learn/components/pages/Learn'
 
 export function App() {
   return (
@@ -11,7 +12,14 @@ export function App() {
     min-h-screen
     justify-center
     ">
-      <Lesson/>
+      <Router>
+
+        <Learn path="/learn" />
+
+        <Lesson path="/lesson"/>
+
+      </Router>
+      
     </div>
   )
 }

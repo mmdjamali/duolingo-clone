@@ -1,5 +1,5 @@
 import Preact from 'preact'
-import { useState } from 'preact/hooks'
+import { useState , useRef , useLayoutEffect} from 'preact/hooks'
 
 type props = {
     value : string,
@@ -43,7 +43,7 @@ const TextWithHint :Preact.FunctionComponent<props> = ({
         bg-neutral-100
         border-[2px]
         top-[calc(100%_+_5px)]
-        right-[50%]
+        right-[50%] 
         translate-x-[50%]
         z-[10]
         `}>

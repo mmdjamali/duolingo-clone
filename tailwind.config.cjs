@@ -9,8 +9,9 @@ module.exports = {
       animation : {
         "perfect" : "perfect 2000ms linear forwards",
         "fade-in" : "fade-in 500ms linear forwards",
-        "slide-left" : "slide-left 400ms linear forwards",
-        "slide-to-left" : "slide-to-left 400ms linear forwards",
+        "slide-left-fade-out" : "slide-left-fade-out 400ms ease-in-out forwards",
+        "slide-left-fade-in" : "slide-left-fade-in 400ms ease-in-out forwards",
+        "open" : "open 500ms ease-in-out forwards",
       },
       keyframes : {
         "perfect" : {
@@ -33,13 +34,21 @@ module.exports = {
           "0%" : {opacity : 0},
           "100%" : {opacity : 1},
         },
-        "slide-left" : {
-          "0%" : {transform : "translateX(100%)",opacity : 0},
-          "100%" : {transform : "translateX(0)", opacity : 1},
+        "slide-left-fade-out" : {
+          "0%" : {transform : "translateX(0)",opacity : 1},
+          "100%" : {transform : "translateX(-100%)", opacity : 0},
         },
-        "slide-to-left" : {
+        "slide-left-fade-in" : {
           "0%" : {transform : "translateX(0)",opacity : 0},
           "100%" : {transform : "translateX(-100%)", opacity : 1},
+        },
+        "open" : {
+          "0%" : {
+            maxHeight : "0px"
+          },
+          "100%" : {
+            maxHeight : "100%"
+          }
         }
       }
     },

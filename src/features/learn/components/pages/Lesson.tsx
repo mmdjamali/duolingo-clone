@@ -1,10 +1,10 @@
 import Preact from 'preact'
 import { useState , useReducer } from "preact/hooks";
 import { MdOutlineClose } from 'react-icons/md'
-import TranslateWithButtons from '../components/challenges/TranslateWithButtons';
+import TranslateWithButtons from '../challenges/TranslateWithButtons';
 
 import Results from './Results';
-import AnimateChallenges from '../components/animations/AnimateChallenges';
+import AnimateChallenges from '../../../../components/animations/AnimateChallenges';
 
 type actionType = {
     type : string,
@@ -170,7 +170,7 @@ function Lesson() {
 
         </div>
 
-        { (challenges.mistakes.length === 0 && challenges.progress === 100) &&
+        {/* { (challenges.mistakes.length === 0 && challenges.progress === 100) &&
         <h3
         className={`
         absolute
@@ -189,7 +189,7 @@ function Lesson() {
         `}>
             Perfect!
         </h3>
-        }
+        } */}
             {(() => {
                 if(!challenges.questions[0])return<></>
                 const Component = Components[challenges.questions[0].type]
@@ -238,49 +238,65 @@ const questions : questionType[]= [
         type : 'TranslateWithButtons',
         sentence : [
             {
-            word : "Hello",
-            meaning : "سلام"
-            },
-            {
-            word : "my name",
-            meaning : "اسم من"
-            },
-            {
-            word : "is",
-            meaning : "هست"
-            },
-            {
-            word : "mohammad",
-            meaning : "محمد"
+            word : "Hi",
+            meaning : "Selam"
             },
         ],
-        meaning : "سلام اسم من محمد هست",
-        options : "سلام تو من محمد هست نیست اسم کدوم".split(" ").sort((a,b) => .5 - Math.random()),
+        meaning : "Selam",
+        options : "Selam ben sen hadi".split(" ").sort((a,b) => .5 - Math.random()),
         id : "1"
     },
     {
         type : 'TranslateWithButtons',
         sentence : [
             {
-                word : "I'm",
-                meaning : "من هستم"
+            word : "Eat",
+            meaning : "Ye"
+            }
+        ],
+        meaning : "Ye",
+        options : "Selam Ye sen iç".split(" ").sort((a,b) => .5 - Math.random()),
+        id : "2"
+    },
+    {
+        type : 'TranslateWithButtons',
+        sentence : [
+            {
+            word : "Hi",
+            meaning : "Selam"
             },
             {
-                word : "a",
-                meaning : "یک"
+            word : "I'm",
+            meaning : "ben"
             },
             {
-                word : "front-end",
-                meaning : "فرانت اند"
+            word : "Mohammad",
+            meaning : "Muhammed"
+            },
+        ],
+        meaning : "Selam ben Muhammed",
+        options : "Selam ben Muhammed sen benim".split(" ").sort((a,b) => .5 - Math.random()),
+        id : "3"
+    },
+    {
+        type : 'TranslateWithButtons',
+        sentence : [
+            {
+                word : "A",
+                meaning : "bir"
+            },
+            {
+                word : "Front-end",
+                meaning : "Front-end"
             },
             {
                 word : "developer",
-                meaning : "توسعه دهنده"
+                meaning : "geliştirici"
             },
         ],
-        meaning : "من یک توسعه دهنده فرانت اند هستم",
-        options : "من هستم یک توسعه دهنده فرانت اند آشپز هستی او تو کدوم".split(" ").sort((a,b) => .5 - Math.random()),
-        id : "2"
+        meaning : "Bir Front-end geliştirici",
+        options : "Bir Front-end geliştirici React Iki".split(" ").sort((a,b) => .5 - Math.random()),
+        id : "4"
     },
 ]
 

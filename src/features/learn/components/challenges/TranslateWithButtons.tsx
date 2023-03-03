@@ -1,11 +1,11 @@
 import Preact from 'preact';
 import {useState , useEffect} from 'preact/hooks'
 import { MdOutlineClose, MdOutlineFlag} from "react-icons/md"
-import Button from '../buttons/Button'
-import { playCorrect, playWrong } from '../../utils/sounds'
+import Button from '../../../../components/buttons/Button';
+import { playCorrect, playWrong } from "../../../../utils/sounds"
 import { FaCheck } from "react-icons/fa"
-import TextWithHint from '../texts/TextWithHint'
-import TextButton from '../texts/TextButton'
+import TextWithHint from '../../../../components/texts/TextWithHint';
+import TextButton from '../../../../components/texts/TextButton';
 
 const padding = `
   px-[16px] 
@@ -40,13 +40,6 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
 }) => {
   const [status,setStatus] = useState<"idle" | "success" | "fail">("idle")  
   const [answer,setAnswer] = useState<{value : string , id : number}[] | []>([])  
-  const [animation,setAnimation] = useState<"animate-slide-left" | "animate-slide-to-left">("animate-slide-left")
-
-  useEffect(() => {
-    return () => {
-      setAnimation("animate-slide-to-left")
-    }
-  },[])
 
   return (
     <div
@@ -79,7 +72,7 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
           text-neutral-700
           `}
           >
-            Write this in Persian
+            Translate this to Turkish
           </h1>
         </div>
 
@@ -99,7 +92,6 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
           rounded-t-2xl
           w-[100px]
           h-[150px]
-          
           `}
           >
 
@@ -170,7 +162,6 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
         
         {/* Field */}
         <div
-        dir={"rtl"}
         className={`
         flex-shrink-0
         items-center
@@ -307,7 +298,7 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
                     <Button
                     disabled={!answer.length}
                     onClick={async (e) => {
-                      if(correctAnswer.replaceAll(" ","") === answer?.map(i => i.value).join("")){
+                      if(correctAnswer.replaceAll(" ","").toLowerCase() === answer?.map(i => i.value).join("").replaceAll(" ","").toLowerCase()){
                         onSuccess()
                         setStatus("success")
                         playCorrect()

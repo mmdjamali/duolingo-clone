@@ -59,7 +59,7 @@ const AnimateChallenges : Preact.FunctionComponent<props> = ({
                 flex-shrink-0
                 w-full
                 flex
-                animate-slide-to-left
+                ${idx === 0 ? "animate-slide-left-fade-out" : "animate-slide-left-fade-in"}
                 `}>
                     {item}
                 </div>
