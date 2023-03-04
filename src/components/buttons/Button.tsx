@@ -5,9 +5,11 @@ type props = {
     children : Preact.ComponentChildren,
     outlined ? : boolean,
     colors ? : string
-    onClick ?: (e : Preact.JSX.TargetedMouseEvent<HTMLButtonElement>) => {} | Promise<void>,
     brightness ?: string
     disabled ?: boolean
+    onClick ?: (e : Preact.JSX.TargetedMouseEvent<HTMLButtonElement>) => void | Promise<void>,
+    onFocus ?: (e : Preact.JSX.TargetedFocusEvent<HTMLButtonElement>) => void | Promise<void>,
+    onMouseDown ?: (e :Preact.JSX.TargetedMouseEvent<HTMLButtonElement>) => void | Promise<void>,
 }
 
 const Button :Preact.FunctionComponent<props> = ({
@@ -16,7 +18,9 @@ const Button :Preact.FunctionComponent<props> = ({
     colors,
     onClick,
     brightness,
-    disabled
+    disabled,
+    onFocus,
+    onMouseDown
 }) => {
     const [loading , setLoading] = useState<boolean>(false)
   
@@ -30,6 +34,8 @@ const Button :Preact.FunctionComponent<props> = ({
     h-[50px]
     `}>
         <button
+        onMouseDown={onMouseDown}
+        onFocus={onFocus}
         onClick={async (e) => {
             if(!onClick || disabled) return
 

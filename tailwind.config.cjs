@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     "./index.html",
@@ -12,6 +13,7 @@ module.exports = {
         "slide-left-fade-out" : "slide-left-fade-out 400ms ease-in-out forwards",
         "slide-left-fade-in" : "slide-left-fade-in 400ms ease-in-out forwards",
         "open" : "open 500ms ease-in-out forwards",
+        "up-and-down" : "up-and-down 3s ease-in-out infinite"
       },
       keyframes : {
         "perfect" : {
@@ -49,9 +51,16 @@ module.exports = {
           "100%" : {
             maxHeight : "100%"
           }
+        },
+        "up-and-down" : {
+          "0%" : {bottom : "calc(100%)"},
+          "25%" : {bottom : "calc(100% - 4px)"},
+          "75%" : {bottom : "calc(100% + 4px)"},
+          "100%" : {bottom : "calc(100%)"},
         }
       }
     },
   },
-  plugins: [],
+  plugins: [
+  ],
 }
