@@ -80,7 +80,7 @@ const Learn = () => {
                             gap-2
                             ${color.border["600"]}
                             text-white
-                            min-w-[0px]
+                            !min-w-[0px]
                             w-fit
                             `}>
                                 <span
