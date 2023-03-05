@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks'
-import Lesson from './features/learn/components/pages/Lesson'
+import Lesson from './client/features/learn/components/pages/Lesson'
 import Router from "preact-router"
-import Learn from './features/learn/components/pages/Learn'
+import Learn from './client/features/learn/components/pages/Learn'
 
 export function App() {
   return (
