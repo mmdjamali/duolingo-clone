@@ -225,12 +225,13 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
 
       <div
       className={`
+      
       transition-all
       ${padding} 
       ${(() => {
         switch(status){
           case 'idle':
-            return "flex-wrap-reverse"
+            return "flex-wrap-reverse border-t-[2px]"
           case 'success':
             return "bg-green-100 flex-wrap"
           case 'fail':
@@ -253,18 +254,6 @@ const TranslateWithButtons : Preact.FunctionComponent<props> = ({
             case 'idle':
               return(
                 <>
-                  <span
-                  className={`
-                  top-0
-                  left-[50%]
-                  -translate-x-[50%]
-                  inline
-                  absolute
-                  w-[100dvw]
-                  h-[2px]
-                  bg-neutral-200
-                  `}/>
-
                   <div
                   className={`
                   relative
