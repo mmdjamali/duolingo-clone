@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: feather;
+    src: url("./assets/fonts/feather_bold_by_typicalbro44_dee263c.ttf");
+}
+@font-face {
+    font-family: "DINNextRounded";
+    src: url("./assets/fonts/DINNextRoundedLTPro-Bold.otf");
+    font-weight: 700;
+}
+@font-face {
+    font-family: "DINNextRounded";
+    src: url("./assets/fonts/DINNextRoundedLTPro-Light.otf");
+    font-weight: 300;
+}
+@font-face {
+    font-family: "DINNextRounded";
+    src: url("./assets/fonts/DINNextRoundedLTPro-Medium.otf");
+    font-weight:500;
+}
+@font-face {
+    font-family: "DINNextRounded";
+    src: url("./assets/fonts/DINNextRoundedLTPro-Regular.otf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Estedad;
+    src: url("./assets/fonts/estedad/Estedad-Black.ttf");
+    font-weight: 700;
+}
+@font-face {
+    font-family: Estedad;
+    src: url("./assets/fonts/estedad/Estedad-Light.ttf");
+    font-weight: 300;
+}
+@font-face {
+    font-family: Estedad;
+    src: url("./assets/fonts/estedad/Estedad-Bold.ttf");
+    font-weight: 500;
+}
+@font-face {
+    font-family: Estedad;
+    src: url("./assets/fonts/estedad/Estedad-Medium.ttf");
+    font-weight: 400;
+}
+
+@layer base{
+    *{
+        font-family: DINNextRounded , Estedad;
+    }
+}
