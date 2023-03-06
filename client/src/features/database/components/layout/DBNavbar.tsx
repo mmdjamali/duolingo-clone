@@ -2,8 +2,11 @@ import Preact from 'preact'
 import {MdLanguage} from "react-icons/md";
 import { RiUser3Line } from "react-icons/ri";
 import NavButton from './NavButton';
+import { useLocation } from 'react-router';
 
 const DBNavbar = () => {
+    const location = useLocation()
+    
   return (
     <nav
     className={`
@@ -17,6 +20,8 @@ const DBNavbar = () => {
 
         <span
         className={`
+        hidden
+        xl:inline
         text-green-500
         uppercase
         font-bold
@@ -26,6 +31,20 @@ const DBNavbar = () => {
             Database
         </span>
 
+        <span
+        className={`
+        text-center
+        inline
+        xl:hidden
+        text-green-500
+        uppercase
+        font-bold
+        text-[2rem]
+        py-4
+        `}>
+            db
+        </span>
+
         {
             sections.map((item, idx) => {
                 return(
@@ -33,7 +52,7 @@ const DBNavbar = () => {
                     Icon={item.icon}
                     title={item.title}
                     url={item.url}
-                    selected={location.pathname === item.url}
+                    selected={location.pathname.includes(item.url)}
                     />
                 )
             })
@@ -47,9 +66,9 @@ export default DBNavbar
 
 const sections = [
     {
-        title : "languages",
+        title : "courses",
         icon : MdLanguage,
-        url : "/database/languages",
+        url : "/database/courses",
     },
     {
         title : "users",

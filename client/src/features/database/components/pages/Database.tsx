@@ -1,9 +1,8 @@
 import Preact from 'preact'
-import DBNavbar from '../layout/Navbar'
-import { 
-    Routes,
-    Route 
-} from 'react-router'
+import DBNavbar from '../layout/DBNavbar'
+import Courses from './Courses'
+import { Route, Routes } from 'react-router'
+import Users from './Users'
 
 type props = {
     path? : string
@@ -36,20 +35,13 @@ const Database : Preact.FunctionComponent<props> = () => {
             min-h-full
             gap-6
             `}>
-                <div
-                className={`
-                flex
-                -center
-                `}>
-                    <h1
-                    className={`
-                    text-[1.5rem]
-                    font-bold
-                    `}>
-                        Languages
-                    </h1>
+              <Routes>
 
-                </div>
+                <Route path="/courses" element={<Courses/>}/>
+                
+                <Route path="/users" element={<Users/>}/>
+
+              </Routes>
             </div>
         </div>
 

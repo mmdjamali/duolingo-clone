@@ -1,5 +1,6 @@
 import Preact from 'preact'
 import { IconType } from 'react-icons/lib'
+import { Link } from 'react-router-dom'
 
 type props = {
     Icon : IconType,
@@ -15,20 +16,21 @@ const NavButton :Preact.FunctionComponent<props> = ({
     selected
 }) => {
   return (
-    <a
-    href={url}>
+    <Link
+    to={url}>
         <div
         className={`
         cursor-pointer
-        min-w-[222px]
+        w-fit
+        xl:min-w-[222px]
         flex
         items-center
-        gap-5
-        px-3
+        gap-3
+        px-2.5
         py-2
         rounded-xl
         border-[2px]
-        ${selected ? "border-blue-400 bg-blue-100" : "border-transparent bg-white sm:hover:bg-neutral-100"}
+        ${selected ? "border-blue-400 bg-blue-50" : "border-transparent bg-white sm:hover:bg-neutral-100"}
         `}>
             <span
             className={`
@@ -40,7 +42,9 @@ const NavButton :Preact.FunctionComponent<props> = ({
 
             <span
             className={`
-            text-[14px]
+            hidden
+            xl:inline
+            text-[16px]
             font-medium
             tracking-[1px]
             uppercase
@@ -49,7 +53,7 @@ const NavButton :Preact.FunctionComponent<props> = ({
                 {title}
             </span>
         </div>
-    </a>
+    </Link>
   )
 }
 

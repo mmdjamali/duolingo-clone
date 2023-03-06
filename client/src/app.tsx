@@ -1,8 +1,13 @@
 import { useState } from 'preact/hooks'
 import Lesson from './features/learn/components/pages/Lesson'
-import { Router } from "preact-router"
+import {  } from "preact-router"
 import Learn from './features/learn/components/pages/Learn'
 import Database from './features/database/components/pages/Database'
+import { 
+  BrowserRouter as Router,
+  Routes,
+  Route 
+} from 'react-router-dom'
 
 export function App() {
   return (
@@ -14,14 +19,13 @@ export function App() {
     justify-center
     ">
       <Router>
+        <Routes>
 
-        <Learn path="/learn" />
+          <Route path='/learn' element={<Learn/>}/>
+          <Route path='/lesson' element={<Lesson/>}/>
+          <Route path='/database/*' element={<Database/>}/>
 
-        <Lesson path="/lesson"/>
-
-        <Database path="/database/languages"/>
-        <Database path="/database/users"/>
-
+        </Routes>
       </Router>
       
     </div>
