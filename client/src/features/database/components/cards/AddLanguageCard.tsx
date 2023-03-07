@@ -13,6 +13,7 @@ const AddLanguageCard : Preact.FunctionComponent<props> = ({
   return (
     <div
     className={`
+    select-none
     flex
     flex-col
     items-center

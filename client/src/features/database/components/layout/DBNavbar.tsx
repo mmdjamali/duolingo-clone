@@ -10,12 +10,15 @@ const DBNavbar = () => {
   return (
     <nav
     className={`
+    sticky
+    top-0
+    left-0
     flex
     flex-col
     min-h-[100vh]
     p-4
     gap-2
-    border-r-[2px]
+    border-x-[2px]
     `}>
 
         <span

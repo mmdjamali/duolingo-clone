@@ -153,30 +153,32 @@ const course =
                 {
                     section : "1",
                     type : "",
-                    lessons : [{
-                        questions : [
-                            {
-                                type : 'TranslateWithButtons',
-                                sentence : [
+                    lessons : [
+                        {
+                            questions : [
+                                {
+                                    type : 'TranslateWithButtons',
+                                    sentence : [
                                     {
-                                    word : "Hi",
-                                    meaning : "Selam"
-                                    },
-                                    {
-                                    word : "I'm",
-                                    meaning : "ben"
-                                    },
-                                    {
-                                    word : "Mohammad",
-                                    meaning : "Muhammed"
-                                    },
-                                ],
-                                meaning : "Selam ben Muhammed",
-                                options : "Selam ben Muhammed sen benim".split(" ").sort((a,b) => .5 - Math.random()),
-                                id : "1"
-                            },
-                        ]
-                    }],
+                                        word : "Hi",
+                                        meaning : "Selam"
+                                        },
+                                        {
+                                        word : "I'm",
+                                        meaning : "ben"
+                                        },
+                                        {
+                                        word : "Mohammad",
+                                        meaning : "Muhammed"
+                                        },
+                                    ],
+                                    meaning : "Selam ben Muhammed",
+                                    options : "Selam ben Muhammed sen benim".split(" ").sort((a,b) => .5 - Math.random()),
+                                    id : "1"
+                                },
+                            ]
+                        }
+                    ],
 
 
                 },

@@ -2,24 +2,36 @@ import Preact from 'preact'
 import { Link } from 'react-router-dom'
 import {MdOutlineModeEditOutline} from "react-icons/md";
 
-type props = {
-    flag : any,
-    language : string,
-    learners : number
+type language = {
+  name : string,
+  code : string
 }
 
-let formatter = new Intl.NumberFormat("en",{
-  notation : "compact"
-})
+type props = {
+    Flag : any,
+    learn : language,
+    language : language,
+    learners : number,
+    id : string
+}
+
+
 
 const LanguageCard : Preact.FunctionComponent<props> = ({
-    flag,
+    Flag,
+    learn,
     language,
-    learners
+    learners,
+    id
 }) => {
+
+  let formatter = new Intl.NumberFormat(language.code,{
+    notation : "compact"
+  })
+
   return (
     <Link
-    to="">
+    to={id}>
       <div
       className={`
       relative
@@ -50,21 +62,23 @@ const LanguageCard : Preact.FunctionComponent<props> = ({
             rounded-full
             border-[2px]
             aspect-square
+            text-neutral-400
             `}>
-              <MdOutlineModeEditOutline/>
+              <MdOutlineModeEditOutline
+              />
             </button>
           </Link>
-
-          <span
-          className={`
-          mt-5
-          bg-red-500
-          inline
-          w-[75px]
-          h-[55px]
-          rounded-xl
-          `}
-          />
+          {
+            Flag ? <Flag
+            className={`
+            mt-5
+            inline
+            w-[75px]
+            rounded-xl
+            `}
+            /> : ""
+          }
+          
 
           <span
           className={`
@@ -78,7 +92,7 @@ const LanguageCard : Preact.FunctionComponent<props> = ({
             font-medium
             text-neutral-700
             `}>
-                {language}
+                {learn.name}
             </p>
 
             <p

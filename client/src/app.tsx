@@ -16,7 +16,9 @@ export function App() {
     flex
     w-full
     min-h-screen
+    max-h-screen
     justify-center
+    overflow-y-[auto]
     ">
       <Router>
         <Routes>

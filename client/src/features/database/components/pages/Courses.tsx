@@ -1,4 +1,5 @@
 import Preact from 'preact'
+import { flags } from '../../../../utils/Flags'
 import LanguageCard from '../cards/LanguageCard'
 import AddLanguageCard from '../cards/AddLanguageCard'
 
@@ -33,8 +34,11 @@ function Courses() {
             {list.map((item,idx) => {
                 return(
                     <LanguageCard
-                    flag={item.flag}
-                    language={item.Language}
+                    id={item.id}
+                    key={idx}
+                    Flag={flags[item.learn.code]}
+                    language={item.language}
+                    learn={item.learn}
                     learners={item.learners}
                     />
                 )
@@ -52,20 +56,79 @@ function Courses() {
 
 export default Courses
 
-const list = [
+type language = {
+    name : string,
+    code : string
+  }
+  
+
+type course = {
+    id : string,
+    learn : language,
+    language : language,
+    learners : number,
+    units ?: any,
+}
+
+const list : course[] = [
     {
-        flag : null,
-        Language : "English",
-        learners : 15000450
-    },
-    {
-        flag : null,
-        Language : "Germen",
-        learners : 10450
-    },
-    {
-        flag : null,
-        Language : "French",
-        learners : 150
+        id : "en-fa",
+        learn : {
+            name : "انگلیسی",
+            code : "en"
+        },
+        language : {
+            name : "Persian",
+            code : "fa-ir"
+        },
+        learners : 0,
+        units : [
+            {
+                id : "1",
+                description : "الفبای انگلیسی رو یادبگیریم",
+                guidebook : {},
+                lessons : [
+                    {
+                        id : "1",
+                        sections : [
+                            {
+                                id : "1",
+                                challenges : [
+                                    {
+
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id : "2",
+                        sections : [
+                            {
+                                id : "1",
+                                challenges : [
+                                    {
+
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id : "2",
+                        sections : [
+                            {
+                                id : "1",
+                                challenges : [
+                                    {
+
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                ]
+            }
+        ]
     }
 ]

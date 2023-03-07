@@ -3,6 +3,7 @@ import DBNavbar from '../layout/DBNavbar'
 import Courses from './Courses'
 import { Route, Routes } from 'react-router'
 import Users from './Users'
+import Course from './Course'
 
 type props = {
     path? : string
@@ -12,15 +13,19 @@ const Database : Preact.FunctionComponent<props> = () => {
   return (
     <div
     className={`
+    relative
     flex
     w-full
-    h-screen
+    min-h-screen
+    max-h-screen
+    overflow-y-auto
     `}>
 
         <DBNavbar/>
 
         <div
         className={`
+        h-fit
         min-h-screen
         w-full
         px-[66px]
@@ -38,6 +43,7 @@ const Database : Preact.FunctionComponent<props> = () => {
               <Routes>
 
                 <Route path="/courses" element={<Courses/>}/>
+                <Route path="/courses/:id" element={<Course/>}/>
                 
                 <Route path="/users" element={<Users/>}/>
 
