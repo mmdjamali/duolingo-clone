@@ -43,7 +43,7 @@ const Database : Preact.FunctionComponent<props> = () => {
               <Routes>
 
                 <Route path="/courses" element={<Courses/>}/>
-                <Route path="/courses/:id" element={<Course/>}/>
+                <Route path="/courses/:id/*" element={<Course/>}/>
                 
                 <Route path="/users" element={<Users/>}/>
 

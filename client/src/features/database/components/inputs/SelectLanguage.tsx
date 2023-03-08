@@ -14,6 +14,7 @@ const SelectLanguage : Preact.FunctionComponent<props> = ({
     value
 }) => {
     const [showFlags , setShowFlags] = useState<boolean>(false)
+    const [showRecommendation , setShowRecommendation] = useState<boolean>(false)
   
     return (
     <div
@@ -99,27 +100,82 @@ const SelectLanguage : Preact.FunctionComponent<props> = ({
             </div>
         </div>
 
-        <input
-        onFocus={() => {
-            if(showFlags)
-            setShowFlags(false)
-        }}
+        <div
         className={`
-        w-full
-        font-light
-        text-[19px]
-        bg-transparent
-        focus:outline-none
-        `}
-        value={value}
-        onChange={(e : any) => {
-            let v = e.target.value
-            setValue({
-                name : v,
-                code : list[v] || ""
-            })
-        }}
-        />
+        relative
+        flex
+        `}>
+            <input
+            onFocus={() => {
+                if(showFlags)
+                setShowFlags(false)
+                setShowRecommendation(true)
+            }}
+            onBlur={() => {
+                if(showRecommendation)
+                setShowRecommendation(false)
+            }}
+            className={`
+            w-full
+            font-light
+            text-[19px]
+            bg-transparent
+            focus:outline-none
+            `}
+            value={value}
+            onChange={(e : any) => {
+                let v = e.target.value
+                setValue({
+                    name : v,
+                    code : list[v] || ""
+                })
+            }}
+            />
+
+            <div
+            className={`
+            transition-all
+            duration-200
+            ${showRecommendation ? "border-[2px] max-h-[100px]" : "max-h-[0px]"}
+            select-none
+            absolute
+            flex
+            flex-col
+            top-[100%]
+            bg-neutral-100
+            rounded-xl
+            overflow-x-hidden
+            overflow-y-auto
+            `}>
+                {Object.entries(list).filter((item) => item[0].includes(value) || item[1].includes(value))
+                .map((item) => {
+                    const Flag = flags[item[1]]
+                    return (
+                    <div
+                    onClick={() => {
+                        setValue({
+                            name : item[0],
+                            code : item[1]
+                        })
+                        setShowRecommendation(false)
+                    }}
+                    className={`
+                    cursor-pointer
+                    flex
+                    p-1
+                    gap-2
+                    hover:bg-neutral-200
+                    `}>
+                        <Flag
+                        className='
+                        w-[32px]'
+                        />
+                        {item[0]}
+                    </div>
+                    )
+                })}
+            </div>
+        </div>
     </div>
   )
 }
