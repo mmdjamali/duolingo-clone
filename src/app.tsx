@@ -7,6 +7,8 @@ import {
   Routes,
   Route 
 } from 'react-router-dom'
+import Navbar from './comps/layouts/navbar'
+import ShowNavbar from './comps/layouts/show-navbar'
 
 export function App() {
   return (
@@ -15,11 +17,15 @@ export function App() {
     flex
     w-full
     min-h-screen
-    max-h-screen
     justify-center
     overflow-y-[auto]
+    h-fit
+    relative
     ">
+
+
       <Router>
+      <ShowNavbar/>
         <Routes>
 
           <Route path='/learn' element={<Learn/>}/>

@@ -12,7 +12,8 @@ const Learn = () => {
     items-center
     justify-center
     min-h-screen
-    sm:p-3
+    sm:p-6
+    lg:p-8
     `}>
         {course.units.map((unit , idx) => 
             <UnitSection

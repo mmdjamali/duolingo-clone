@@ -1,8 +1,9 @@
+import Preact from 'preact'
 import { IconType } from 'react-icons/lib'
 import { Link } from 'react-router-dom'
 
 type props = {
-    Icon : IconType,
+    Icon : Preact.FunctionComponent<{className : string}>,
     title : string,
     url : string,
     selected : boolean
@@ -19,25 +20,27 @@ export default ({
     to={url}>
         <div
         className={`
+        flex-shrink-0
         cursor-pointer
         w-fit
         xl:min-w-[222px]
         flex
         items-center
-        gap-3
-        px-2.5
+        gap-4
+        px-4
         py-2
         rounded-xl
         border-[2px]
-        ${selected ? "border-blue-400 bg-blue-50" : "border-transparent bg-white sm:hover:bg-neutral-100"}
+        ${selected ? "border-cyan-400 bg-cyan-50" : "border-transparent bg-white sm:hover:bg-neutral-100"}
         `}>
-            <span
+            <Icon
             className={`
-            text-[2rem]
-            ${selected ? "text-blue-400" : "text-neutral-700"}
-            `}>
-                {<Icon/>}
-            </span>
+            min-w-[32px]
+            w-[32px]
+            aspect-square
+            flex-shrink-0
+            `}
+            />
 
             <span
             className={`
@@ -47,7 +50,7 @@ export default ({
             font-medium
             tracking-[1px]
             uppercase
-            ${selected ? "text-blue-400" : "text-neutral-700"}
+            ${selected ? "text-cyan-400" : "text-neutral-700"}
             `}>
                 {title}
             </span>

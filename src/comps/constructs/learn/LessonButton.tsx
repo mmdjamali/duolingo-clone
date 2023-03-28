@@ -1,5 +1,5 @@
 import Preact from 'preact'
-import { MutableRef, useLayoutEffect, useRef, useState } from 'preact/hooks'
+import { MutableRef, useEffect, useRef, useState } from 'preact/hooks'
 import { transforms } from '../../../utils/characters'
 import Button from '../../../components/buttons/Button'
 import RoundedButton from '../../primitives/buttons/rounded-button-with-backdrop'
@@ -33,20 +33,20 @@ const LessonButton : Preact.FunctionComponent<props> = ({
     const container = useRef<null | HTMLDivElement>(null)
     const transform = transforms[character]
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if(!isCurrent) return
 
-        window.onbeforeunload = () => {
-            if(container.current){
-                container.current.scrollIntoView({
-                    behavior: 'auto',
-                    block: 'center',
-                    inline: 'center'
-                })
-            }
-        }
+        // window.onbeforeunload = () => {
+        //     if(container.current){
+        //         container.current.scrollIntoView({
+        //             behavior: 'auto',
+        //             block: 'center',
+        //             inline: 'center'
+        //         })
+        //     }
+        // }
 
-        window.onload = () => {
+        // window.onload = () => {
             if(container.current){
                 container.current.scrollIntoView({
                     behavior: 'smooth',
@@ -54,7 +54,7 @@ const LessonButton : Preact.FunctionComponent<props> = ({
                     inline: 'center'
                 })
             }
-        }
+        // }
     },[container])
 
   return (

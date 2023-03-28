@@ -21,9 +21,6 @@ export default ({
     max-h-screen
     overflow-y-auto
     `}>
-
-        <Navbar/>
-
         <div
         className={`
         h-fit
