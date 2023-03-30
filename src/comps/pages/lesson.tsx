@@ -4,6 +4,7 @@ import { MdOutlineClose } from 'react-icons/md'
 import TranslateWithButtons from '../sections/challanges/translate-with-text-buttons';
 import Results from '../sections/results';
 import AnimateChallenges from '../../components/animations/AnimateChallenges';
+import selectCorrectOption from '../sections/challanges/select-correct-option';
 
 type actionType = {
     type : string,
@@ -25,11 +26,12 @@ type prevType = {
 
 type sentenceType = {
     word : string,
-    meaning : string
+    meaning : string,
+    blank ?: boolean
 }
 
 type questionType = {
-    type : "TranslateWithButtons",
+    type : "TranslateWithButtons" | "SelectCorrectOption",
     sentence : sentenceType[],
     meaning : string,
     options : string[],
@@ -235,6 +237,29 @@ export default Lesson
 
 const questions : questionType[]= [
     {
+        type : 'SelectCorrectOption',
+        sentence : [
+            {
+            word : "Hi",
+            meaning : "سلام",
+            blank : false
+            },
+            {
+            word : "I'm",
+            meaning : "من هستم",
+            blank : true
+            },
+            {
+            word : "Mohammad",
+            meaning : "محمد",
+            blank : false
+            },
+        ],
+        meaning : "سلام من محمد هستم",
+        options : "I'm you how me".split(" ").sort((a,b) => .5 - Math.random()),
+        id : "1"
+    },
+    {
         type : 'TranslateWithButtons',
         sentence : [
             {
@@ -244,7 +269,7 @@ const questions : questionType[]= [
         ],
         meaning : "Selam",
         options : "Selam ben sen hadi".split(" ").sort((a,b) => .5 - Math.random()),
-        id : "1"
+        id : "8"
     },
     {
         type : 'TranslateWithButtons',
@@ -300,8 +325,9 @@ const questions : questionType[]= [
     },
 ]
 
-const Components = {
+const Components : any = {
     "TranslateWithButtons" : TranslateWithButtons,
+    "SelectCorrectOption" : selectCorrectOption,
 }
 
 

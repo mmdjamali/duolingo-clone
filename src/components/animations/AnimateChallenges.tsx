@@ -7,7 +7,7 @@ type props = {
 }
 
 type questionType = {
-    type : "TranslateWithButtons",
+    type : "TranslateWithButtons" | "selectCorrectOption",
     sentence : sentenceType[],
     meaning : string,
     options : string[],
@@ -16,7 +16,8 @@ type questionType = {
 
 type sentenceType = {
     word : string,
-    meaning : string
+    meaning : string,
+    blank ?: boolean
 }
 
 const AnimateChallenges : Preact.FunctionComponent<props> = ({

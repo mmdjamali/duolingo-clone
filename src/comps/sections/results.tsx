@@ -8,7 +8,7 @@ import TimerUp from '../../components/animations/TimerUp';
 import ComponentWithDelay from '../../components/animations/ComponentWithDelay';
 
 type questionType = {
-    type : "TranslateWithButtons",
+    type : "TranslateWithButtons" | "selectCorrectOption",
     sentence : sentenceType[],
     meaning : string,
     options : string[],
@@ -30,7 +30,8 @@ type prevType = {
 
 type sentenceType = {
     word : string,
-    meaning : string
+    meaning : string,
+    blank ?: boolean
 }
 
 type props = {

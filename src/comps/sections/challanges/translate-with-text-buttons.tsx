@@ -6,6 +6,7 @@ import { playCorrect, playWrong } from "../../../utils/sounds"
 import { FaCheck } from "react-icons/fa"
 import TextButton from '../../primitives/buttons/text-button';
 import TextWithHint from '../../primitives/typography/text-with-hint';
+import Question from '../../constructs/challanges/question';
 
 const padding = `
   px-[16px] 
@@ -40,7 +41,7 @@ export default({
     onSuccess,
 } : props) => {
     const [status,setStatus] = useState<"idle" | "success" | "fail">("idle")  
-  const [answer,setAnswer] = useState<{value : string , id : number}[] | []>([])  
+    const [answer,setAnswer] = useState<{value : string , id : number}[] | []>([])  
 
   return (
     <div
@@ -98,66 +99,19 @@ export default({
 
           </div>
 
-          <div
-          className={`
-          self-center
-          flex
-          items-center
-          justify-center
-          `}>
+          <Question>
 
-            <span
-            className={`
-            flex-shrink-0
-            relative
-            w-[12px]
-            h-[12px]
-            border-b-[2px]
-            border-l-[2px]
-            rotate-45
-            translate-x-[3px]
-            z-[10]
-            `}
-            >
-              <span
-              className={`
-              
-              top-0
-              right-0
-              absolute
-              w-[10px]
-              h-[10px]
-              bg-white
-              `}
-              />
-            </span>
+            {sentence.map((item , idx) => {
+              return(
+                <TextWithHint
+                key={idx}
+                value={item.word}
+                meaning={item.meaning}
+                />
+              )
+            })}
 
-            <div
-            className={`
-            flex
-            flex-wrap
-            -translate-x-[4px]
-            rounded-2xl
-            bg-white
-            border-[2px]
-            p-4
-            text-[1.2rem]
-            font-light
-            text-neutral-700
-            gap-1
-            `}>
-                {sentence.map((item , idx) => {
-                  return(
-                    <TextWithHint
-                    key={idx}
-                    value={item.word}
-                    meaning={item.meaning}
-                    />
-                  )
-                })}
-            </div>
-
-          </div>
+          </Question>
 
         </div>
         

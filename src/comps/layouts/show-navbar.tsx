@@ -9,6 +9,7 @@ export default ({
     const location = useLocation()
 
     if(location.pathname.startsWith("/database")) return <NavbarDB/>
+    if(location.pathname.startsWith("/lesson")) return <></>
 
     return <Navbar/>
 }
